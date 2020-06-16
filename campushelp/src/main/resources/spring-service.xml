@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       https://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       https://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/aop
+	   http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+	   http://www.springframework.org/schema/tx
+	   http://www.springframework.org/schema/tx/spring-tx-3.0.xsd ">
+<!--    扫描service下的包-->
+    <context:component-scan base-package="cn.edu.whpu.service"/>
+<!--    声明事务配置-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+<!--        注入数据源-->
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+<!--     指明使用注解的方式来管理事务 -->
+    <tx:annotation-driven transaction-manager="transactionManager" />
+<!--     配置事务的传播特性 -->
+<!--     配置事务属性 -->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <!-- 传播属性-REQUIRED支持当前事务，如果当前没有事务，就新建一个事务  -->
+            <tx:method name="find*" read-only="true" />
+            <tx:method name="get*" read-only="true" />
+            <tx:method name="select*" read-only="true" />
+            <tx:method name="add*" propagation="REQUIRED" />
+            <tx:method name="update*" propagation="REQUIRED" />
+            <tx:method name="del*" propagation="REQUIRED" />
+            <tx:method name="*" read-only="true"/>
+        </tx:attributes>
+    </tx:advice>
+    <!-- 配置事务切入点，以及把事务切入点和事务属性关联起来 -->
+<!--    <aop:config proxy-target-class="true">-->
+<!--        <aop:pointcut expression="execution(* cn.edu.whpu.service.*.*(..))" id="ServicePointcut" />-->
+<!--        <aop:advisor advice-ref="txAdvice" pointcut-ref="ServicePointcut" />-->
+<!--    </aop:config>-->
+<!--    <aop:config>-->
+<!--        <aop:pointcut id="txPointCut" expression="execution(public * cn.edu.whpu.service.*.*(..))"/>-->
+<!--        &lt;!&ndash; 将事务增强与切入点组合（织入事务切面） &ndash;&gt;-->
+<!--        <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointCut"/>-->
+<!--    </aop:config>-->
+</beans>

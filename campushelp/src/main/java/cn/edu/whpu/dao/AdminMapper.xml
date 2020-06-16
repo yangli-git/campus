@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.edu.whpu.dao.AdminMapper" >
+  <select id="selectByPrimaryKey" resultType="Admin" parameterType="java.lang.Integer" >
+    select *
+    from admin
+    where aId = #{aId}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from admin
+    where aId = #{aId}
+  </delete>
+  <insert id="insert" parameterType="Admin" >
+    insert into admin (aId, account, password, name, addTime, state)
+    values (#{aId}, #{account}, #{password}, #{name}, #{addtime},#{state})
+  </insert>
+  <insert id="insertSelective" parameterType="Admin" >
+    insert into admin
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="aId != null" >
+        aId,
+      </if>
+      <if test="account != null" >
+        account,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="addTime != null" >
+        addTime,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="aId != null" >
+        #{aId},
+      </if>
+      <if test="account != null" >
+        #{account},
+      </if>
+      <if test="password != null" >
+        #{password},
+      </if>
+      <if test="name != null" >
+        #{name},
+      </if>
+      <if test="addTime != null" >
+        #{addTime},
+      </if>
+      <if test="state != null" >
+        #{state},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="Admin" >
+    update admin
+    <set >
+      <if test="account != null" >
+        account = #{account},
+      </if>
+      <if test="password != null" >
+        password = #{password},
+      </if>
+      <if test="name != null" >
+        name = #{name},
+      </if>
+      <if test="addTime != null" >
+        addTime = #{addTime},
+      </if>
+      <if test="state != null" >
+        state = #{state},
+      </if>
+    </set>
+    where aId = #{aId}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="Admin" >
+    update admin
+    set account = #{account},
+      password = #{password},
+      name = #{name},
+      addtime = #{addTime},
+      state = #{state}
+    where aId = #{aId}
+  </update>
+  
+  <!-- 查找账号个数  添加管理员检查账号重复 -->
+  <select id="selectAccountCount" resultType="java.lang.Integer" >
+    SELECT COUNT(*) FROM `admin` WHERE account = #{account};
+  </select>
+  
+  <!-- 根据账号查找返回admin  登录时根据账号获取该帐号信息 -->
+  <select id="selectAdminByAccount" resultType="admin" >
+    SELECT * FROM `admin` WHERE account = #{account};
+  </select>
+  
+</mapper>

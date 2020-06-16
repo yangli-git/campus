@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!--核心配置-->
+<configuration>
+    <settings>
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+    </settings>
+    <typeAliases>
+        <!--        <typeAlias type="cn.edu.whpu.pojo.User" alias="User"/>-->
+        <package name="cn.edu.whpu.pojo"/>
+    </typeAliases>
+    <mappers>
+        <!--        <mapper resource="cn/edu/whpu/dao/UserMapper.xml"/>-->
+        <!--        <mapper class="cn.edu.whpu.dao.UserMapper"/>-->
+        <package name="cn.edu.whpu.dao"/>
+    </mappers>
+</configuration>
+
+

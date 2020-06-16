@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.edu.whpu.dao.SchoolMapper" >
+  <select id="selectByPrimaryKey" resultType="School" parameterType="java.lang.Integer" >
+    select *
+    from school
+    where schoolId = #{schoolid}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from school
+    where schoolId = #{schoolid}
+  </delete>
+  <insert id="insert" parameterType="School" >
+    insert into school (schoolId, name, addTime,state)
+    values (#{schoolId}, #{name}, #{addTime},#{state})
+  </insert>
+  <insert id="insertSelective" parameterType="School" >
+    insert into school
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="schoolId != null" >
+        schoolId,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="addTime != null" >
+        addTime,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="schoolId != null" >
+        #{schoolId},
+      </if>
+      <if test="name != null" >
+        #{name},
+      </if>
+      <if test="addTime != null" >
+        #{addTime},
+      </if>
+      <if test="state != null" >
+        #{state},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="School" >
+    update school
+    <set >
+      <if test="name != null" >
+        name = #{name},
+      </if>
+      <if test="addTime != null" >
+        addTime = #{addTime},
+      </if>
+      <if test="state != null" >
+        state = #{state},
+      </if>
+    </set>
+    where schoolId = #{schoolId}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="School" >
+    update school
+    set name = #{name},
+      addTime = #{addTime},
+      state = #{state}
+    where schoolId = #{schoolId}
+  </update>
+  
+  <!-- 查找全部 -->
+  <select id="selectAllSchools" resultType="School" >
+    SELECT * FROM `school`
+  </select>
+  
+  <!-- 查找全部不含限制的 -->
+  <select id="selectAllSchoolsNoState" resultType="School" >
+    SELECT * FROM `school` where state = 0
+  </select>
+  
+</mapper>
