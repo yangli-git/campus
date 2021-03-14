@@ -7,7 +7,7 @@
     <groupId>cn.edu.whpu</groupId>
     <artifactId>campushelp</artifactId>
     <version>1.0-SNAPSHOT</version>
-<!--    <packaging>war</packaging>-->
+    <packaging>war</packaging>
     <!--    依赖 junit 数据库驱动 连接池 Servlet jsp jstl mybatis mybatis-spring spring-->
     <dependencies>
         <dependency>

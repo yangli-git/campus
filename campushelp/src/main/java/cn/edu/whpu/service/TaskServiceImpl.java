@@ -47,13 +47,11 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<Task> getTaskByKeys(String words, Integer schoolId) {
-        // TODO Auto-generated method stub
         return taskMapper.selectTaskByKeys(words, schoolId);
     }
 
     @Override
     public List<Task> getTaskByKeysNoState(String words, Integer schoolId) {
-        // TODO Auto-generated method stub
         return taskMapper.selectTaskByKeysNoState(words, schoolId);
     }
 

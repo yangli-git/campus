@@ -6,6 +6,7 @@
 %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -31,7 +32,7 @@
 			<div class="layui-logo">校园即时服务平台</div>
 			<!-- 头部区域（可配合layui已有的水平导航） -->
 			<ul class="layui-nav layui-layout-left">
-				<li class="layui-nav-item"><a href="">任务中心</a></li>
+				<li class="layui-nav-item"><a href="/task/list.do">任务中心</a></li>
 				<c:if test="${!empty nowUser }">
 					<li class="layui-nav-item"><a href="userIndex.jsp">个人中心</a></li>
 				</c:if>
@@ -129,7 +130,7 @@
 							method="post" action="task/list.do">
 
 							<div class="layui-form-item">
-								<div class="layui-inline">
+								<div class="layui-inline" style="margin-left: 10%">
 									<label class="layui-form-label">关键词</label>
 									<div class="layui-input-block">
 										<input type="text" name="words" autocomplete="off"
@@ -138,10 +139,10 @@
 								</div>
 								<div class="layui-input-inline">
 									<label class="layui-form-label">学校</label>
-									<div class="layui-input-block">
+									<div class="layui-input-block" style="width: 80%">
 										<select id="schoolIdStr" name="schoolIdStr"
 												lay-filter="schoolFilter0">
-											<option value="0" selected="">未选择</option>
+											<option value="-1" selected="true">未选择</option>
 										</select>
 									</div>
 								</div>
@@ -179,7 +180,12 @@
 
 													<li style="padding-left: 15px;">
 														<h2>
-															<a class="layui-badge">待解决</a> <a
+															<a class="layui-badge">
+																<c:if test="${task.state == -1}">暂存</c:if>
+																<c:if test="${task.state == 0}">已完成</c:if>
+																<c:if test="${task.state == 1}">进行中</c:if>
+																<c:if test="${task.state == 2}">待解决</c:if>
+															</a> <a
 																onclick="getTask(${task.taskId })">${task.taskName }</a>
 														</h2>
 														<div class="fly-list-info">
@@ -313,7 +319,7 @@
 	<script type="text/javascript">
 		layui.use('laypage', function() {
 			var laypage = layui.laypage;
-	
+
 			//执行一个laypage实例
 			laypage.render({
 				elem : 'test1', //注意，这里的 test1 是 ID，不用加 # 号
@@ -321,11 +327,11 @@
 				limit : ${p.pageSize} ,
 				curr: ${p.pageNum } ,
 				jump: function(obj,first){//点击页码出发的事件
-                	if(first!=true){//是否首次进入页面  
-                    	var currentPage = obj.curr;//获取点击的页码      
+                	if(first!=true){//是否首次进入页面
+                    	var currentPage = obj.curr;//获取点击的页码
                     	window.location.href ="<%=path%>/task/list.do?words=${words }&schoolIdStr=${schoolIdStr }&page="+currentPage;
-                	}  
-                }  
+                	}
+                }
 			});
 		});
 	</script>

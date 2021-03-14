@@ -1,15 +1,21 @@
 package cn.edu.whpu.controller;
 
 import cn.edu.whpu.pojo.User;
+import cn.edu.whpu.pojo.Task;
+import cn.edu.whpu.service.TaskService;
 import cn.edu.whpu.service.UserService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.List;
 
 /**
  * ***********用户基本************** 
@@ -28,9 +34,13 @@ public class UserController {
 	@Resource(name = "userService")
 	public UserService userService;
 
+	@Resource(name = "taskService")
+	public TaskService taskService;
+
 	// 登录
 	@RequestMapping("login.do")
-	public String login(String studentId, String password, Model model) {
+	public String login(String studentId, String password, Model model,
+						@RequestParam(required=true,defaultValue="1") Integer page) {
 
 		User user = null;
 
@@ -42,8 +52,17 @@ public class UserController {
 		}
 
 		if (password.equals(user.getPassword())) {
+
+			//这段代码表示，程序开始分页了，page默认值是1，每页记录数（pageSize）默认是3，意思是从第1页开始，每页显示3条记录
+			//每页记录数可以自定义
+			PageHelper.startPage(page, 3);
+			List<Task> list = taskService.getAllTask();
+			PageInfo<Task> pageInfo = new PageInfo<Task>(list); //将集合封装到PageInfo
+			//绑定数据，返回给页面
+			model.addAttribute("p", pageInfo);
 			model.addAttribute("nowUser", user);
-			model.addAttribute("loginFlag", "loginFlag");
+//			model.addAttribute("loginFlag", "loginFlag");
+
 			return "index";
 		} else {
 			model.addAttribute("msg", "登录失败--密码错误");

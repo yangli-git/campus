@@ -95,15 +95,15 @@
 			<div class="layui-col-md5">&nbsp;</div>
 			<div class="layui-col-md4">
 				<c:if test="${!empty nowUser }">
-					<c:if test="${nowUser.stuid!=theTask.publishUserId }">
-						<c:if test="${theTask.state!=2 && nowUser.state==0}">
+					<c:if test="${nowUser.stuId != theTask.publishUserId }">
+						<c:if test="${theTask.state ==2 && nowUser.state==0}">
 							<a href="task/taskAccept.do?tidstr=${theTask.taskId }" class="layui-btn layui-btn-normal">接受该任务</a>
 						</c:if>
 					</c:if>
 					<c:if test="${nowUser.stuId==theTask.publishUserId }">
 						<button class="layui-btn layui-btn-disabled">自己发布的任务</button>
 					</c:if>
-					<c:if test="${theTask.state==2 }">
+					<c:if test="${theTask.state==0 }">
 						<button class="layui-btn layui-btn-disabled">已被接受</button>
 					</c:if>
 				</c:if>

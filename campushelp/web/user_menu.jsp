@@ -31,7 +31,7 @@
         <div class="layui-logo">校园即时服务平台</div>
         <!-- 头部区域（可配合layui已有的水平导航） -->
         <ul class="layui-nav layui-layout-left">
-            <li class="layui-nav-item"><a href="">任务中心</a></li>
+            <li class="layui-nav-item"><a href="/task/list.do">任务中心</a></li>
             <li class="layui-nav-item"><a href="userIndex.jsp">个人中心</a></li>
 
         </ul>

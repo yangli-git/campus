@@ -83,7 +83,7 @@ public class AdminController {
 			model.addAttribute("nowAdmin", admin);
 			return "adminIndex";
 		} else {
-			model.addAttribute("msg", "密码验证错误正确");
+			model.addAttribute("msg", "密码错误,请重现输入");
 			return "login";
 		}
 
@@ -100,6 +100,7 @@ public class AdminController {
 		System.err.println(admin);
 		int r = adminService.updateAdminInfo(admin);
 		if (r > 0) {
+			model.addAttribute("nowAdmin", admin);
 			model.addAttribute("msg", "更新成功");
 			return "adminIndex";
 		}

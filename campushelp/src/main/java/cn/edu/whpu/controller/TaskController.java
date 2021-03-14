@@ -309,23 +309,27 @@ public class TaskController {
 		model.addAttribute("theTask", theTask);
 		return "taskInfo";
 	}
-	
-	//搜索任务
+
+	/**
+	 *   搜索任务
+	 *   没有选择学校的时候就查询所有的
+	 */
+
 	@RequestMapping("list.do")
-	public String findTask(String words, @RequestParam(required=true,defaultValue="-1") String schoolIdStr,@RequestParam(required=true,defaultValue="1") Integer page , Model model) {
+	public String findTask(String words, @RequestParam(required=true, defaultValue="-1") String schoolIdStr,
+						   @RequestParam(required=true,defaultValue="1") Integer page , Model model) {
 
 		model.addAttribute("words", words);
 		model.addAttribute("schoolIdStr", schoolIdStr);
 
-		int schoolId = -1;
+		Integer schoolId = null;
 		if (!schoolIdStr.equals("-1")) {
 			try {
 				schoolId = Integer.parseInt(schoolIdStr);
 			} catch (Exception e) {
-				System.err.println("err");
+				// todo
 			}
 		}
-		
 		if (words!=null) {
 			words="%"+words+"%";
 		}
