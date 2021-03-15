@@ -6,8 +6,8 @@
 
 <!--    &lt;!&ndash;开启注解支持&ndash;&gt;-->
 <!--    <context:annotation-config/>-->
-      <import resource="spring-dao.xml"/>
-    <import resource="spring-service.xml"/>
-    <import resource="spring-mvc.xml"/>
+      <import resource="classpath:spring-dao.xml"/>
+    <import resource="classpath:spring-service.xml"/>
+    <import resource="classpath:spring-mvc.xml"/>
 
 </beans>
