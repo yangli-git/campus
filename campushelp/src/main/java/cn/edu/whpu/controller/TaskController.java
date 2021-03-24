@@ -81,7 +81,7 @@ public class TaskController {
 				System.out.println("success");
 				model.addAttribute("msg", "发布成功");
 				return getUserTask(request, model);
-			}else {
+			} else {
 				model.addAttribute("msg", "余额已扣除-发布失败");
 				return "userNewTask";
 			}
@@ -247,7 +247,7 @@ public class TaskController {
 		return "userPTask";
 	}
 
-	// to2.to2.点击接受任务
+	// 点击接受任务
 	@RequestMapping("taskAccept.do")
 	public String taskAccept(String tidstr, HttpServletRequest request, Model model) {
 		int tid = 0;
@@ -285,7 +285,7 @@ public class TaskController {
 			return getTaskInfo(tidstr, model);
 		}
 		theTask.setAcceptUserId(uid);
-		theTask.setState(2);
+		theTask.setState(1);
 		int r = taskService.updateTask(theTask);
 		if (r > 0) {
 			model.addAttribute("msg", "成功");
