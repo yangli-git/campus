@@ -25,29 +25,19 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public int updateAdminInfo(Admin admin) {
-        int result = 0;
-        try {
-            result = adminMapper.updateByPrimaryKeySelective(admin);
-        } catch (Exception e) {
-
-        }
+        int result = adminMapper.updateByPrimaryKeySelective(admin);
         return result;
     }
 
     @Override
     public Admin login(String account) {
-        Admin admin = null;
-        admin = adminMapper.selectAdminByAccount(account);
+        Admin admin = adminMapper.selectAdminByAccount(account);
         return admin;
     }
 
     @Override
     public int setAdmin(Admin admin) {
-        int result = 0;
-        try {
-            result = adminMapper.insert(admin);
-        } catch (Exception e) {
-        }
+        int result = adminMapper.insert(admin);
         return result;
     }
 
@@ -55,7 +45,6 @@ public class AdminServiceImpl implements AdminService {
     public int deleteAdmin(int aId) {
         return  adminMapper.deleteByPrimaryKey(aId);
     }
-
 
     public void setAdminMapper(AdminMapper adminMapper) {
         this.adminMapper = adminMapper;

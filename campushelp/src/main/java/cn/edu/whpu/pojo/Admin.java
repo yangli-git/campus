@@ -26,4 +26,6 @@ public class Admin {
 
     private Integer state;
 
+    private Double money;
+
 }

@@ -47,9 +47,6 @@ import java.util.List;
  * 
  * @author
  *
- * 前端访问Controller   类上面有@RequestMapping("xxx")   方法上面有这个
- * 然后会调用service   -->调用dao   	也就是对应的mapper    mapper里面的方法都会 在对应的xml有个id为这个方法名的  就是执行这个语句 从而操作类数据库（这里就是mybatis）
- *
  */
 @Controller
 @SessionAttributes({ "nowAdmin" })
@@ -139,7 +136,7 @@ public class AdminController {
 			}
 		} catch (Exception e) {
 			model.addAttribute("msg", "出现错误");
-		}finally {
+		} finally {
 			return "adminIndex";
 		}
 	}
@@ -154,7 +151,7 @@ public class AdminController {
 			model.addAttribute("msg", account + "   该账号已经被使用");
 			return "adminAddAdmin";
 		}
-		Admin admin = new Admin(0, account, "123456", account, new Date(), 0);
+		Admin admin = new Admin(0, account, "123456", account, new Date(), 0,0.0);
 
 		int result = adminService.setAdmin(admin);
 

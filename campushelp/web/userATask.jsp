@@ -68,7 +68,7 @@
 
 		<c:if test="${!empty msg }">
 			<script type="text/javascript">
-				alert("${msg }");
+				layer.msg("${msg }", { icon: 1, offset: "auto", time:1000 });
 			</script>
 		</c:if>
 

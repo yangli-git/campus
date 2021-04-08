@@ -12,7 +12,7 @@
   </delete>
   <insert id="insert" parameterType="Admin" >
     insert into admin (aId, account, password, name, addTime, state)
-    values (#{aId}, #{account}, #{password}, #{name}, #{addtime},#{state})
+    values (#{aId}, #{account}, #{password}, #{name}, #{addtime},#{state},#{money})
   </insert>
   <insert id="insertSelective" parameterType="Admin" >
     insert into admin
@@ -35,6 +35,9 @@
       <if test="state != null" >
         state,
       </if>
+      <if test="money != null" >
+        money,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="aId != null" >
@@ -54,6 +57,9 @@
       </if>
       <if test="state != null" >
         #{state},
+      </if>
+      <if test="money != null" >
+        money,
       </if>
     </trim>
   </insert>
@@ -75,6 +81,9 @@
       <if test="state != null" >
         state = #{state},
       </if>
+      <if test="money != null" >
+        money = #{money},
+      </if>
     </set>
     where aId = #{aId}
   </update>
@@ -84,7 +93,8 @@
       password = #{password},
       name = #{name},
       addtime = #{addTime},
-      state = #{state}
+      state = #{state},
+      money = #{money}
     where aId = #{aId}
   </update>
   

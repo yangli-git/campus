@@ -182,9 +182,10 @@
 														<h2>
 															<a class="layui-badge">
 																<c:if test="${task.state == -1}">暂存</c:if>
-																<c:if test="${task.state == 0}">已完成</c:if>
-																<c:if test="${task.state == 1}">进行中</c:if>
-																<c:if test="${task.state == 2}">待解决</c:if>
+																<c:if test="${task.state == 0}">待解决</c:if>
+																<c:if test="${task.state == 1}">已关闭</c:if>
+																<c:if test="${task.state == 2}">解决中</c:if>
+																<c:if test="${task.state == 3}">已完成</c:if>
 															</a> <a
 																onclick="getTask(${task.taskId })">${task.taskName }</a>
 														</h2>
@@ -225,7 +226,7 @@
 
 		<c:if test="${!empty msg }">
 			<script type="text/javascript">
-				alert("${msg }");
+				layer.msg("${msg }", { icon: 1, offset: "auto", time:1000 });
 			</script>
 		</c:if>
 

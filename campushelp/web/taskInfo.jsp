@@ -96,15 +96,21 @@
 			<div class="layui-col-md4">
 				<c:if test="${!empty nowUser }">
 					<c:if test="${nowUser.stuId != theTask.publishUserId }">
-						<c:if test="${theTask.state ==2 && nowUser.state==0}">
+						<c:if test="${theTask.state ==0 && nowUser.state==0}">
 							<a href="task/taskAccept.do?tidstr=${theTask.taskId }" class="layui-btn layui-btn-normal">接受该任务</a>
 						</c:if>
 					</c:if>
 					<c:if test="${nowUser.stuId==theTask.publishUserId }">
 						<button class="layui-btn layui-btn-disabled">自己发布的任务</button>
 					</c:if>
-					<c:if test="${theTask.state==0 }">
+					<c:if test="${theTask.state==1 }">
+						<button class="layui-btn layui-btn-disabled">已被关闭</button>
+					</c:if>
+					<c:if test="${theTask.state==2 }">
 						<button class="layui-btn layui-btn-disabled">已被接受</button>
+					</c:if>
+					<c:if test="${theTask.state==3 }">
+						<button class="layui-btn layui-btn-disabled">已完成</button>
 					</c:if>
 				</c:if>
 			</div>
@@ -114,7 +120,7 @@
 
 	<c:if test="${!empty msg }">
 		<script type="text/javascript">
-			alert("${msg }");
+			layer.msg("${msg }", { icon: 1, offset: "auto", time:1000 });
 		</script>
 	</c:if>
 	<script src="${pageContext.request.contextPath }/layui/layui.all.js"></script>

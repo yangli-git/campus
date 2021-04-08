@@ -102,13 +102,13 @@
 <c:if test="${!empty msg }">
     <c:if test="${!empty flag }">
         <script type="text/javascript">
-            alert("${msg }");
+            layer.msg("${msg }", { icon: 1, offset: "auto", time:1000 });
             window.location.href="common/logout.do";
         </script>
     </c:if>
     <c:if test="${empty flag }">
         <script type="text/javascript">
-            alert("${msg}");
+            layer.msg("${msg }", { icon: 1, offset: "auto", time:1000 });
             window.location.href="common/logout.do";
         </script>
     </c:if>

@@ -63,6 +63,10 @@
 												被限制
 											  </c:if></td>
 										</tr>
+										<tr>
+											<td>系统金币</td>
+											<td>${nowAdmin.money }</td>
+										</tr>
 									</tbody>
 								</table>
 							<!--</div>-->
@@ -78,7 +82,7 @@
 
 		<c:if test="${!empty msg }">
 			<script type="text/javascript">
-				alert("${msg }");
+				layer.msg("${msg }", { icon: 1, offset: "auto", time:1000 });
 			</script>
 		</c:if>
 

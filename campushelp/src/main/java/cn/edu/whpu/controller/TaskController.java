@@ -1,7 +1,9 @@
 package cn.edu.whpu.controller;
 
+import cn.edu.whpu.pojo.Admin;
 import cn.edu.whpu.pojo.Task;
 import cn.edu.whpu.pojo.User;
+import cn.edu.whpu.service.AdminService;
 import cn.edu.whpu.service.TaskService;
 import cn.edu.whpu.service.UserService;
 import com.github.pagehelper.PageHelper;
@@ -40,6 +42,9 @@ public class TaskController {
 
 	@Resource(name = "userService")
 	public UserService userService;
+
+	@Resource(name = "adminService")
+	public AdminService adminService;
 	
 	//发布新任务
 	@RequestMapping("newTask.do")
@@ -65,7 +70,7 @@ public class TaskController {
 			return "userNewTask";
 		}
 
-		if (user.getMoney()<task.getReward()) {
+		if (user.getMoney() < task.getReward()) {
 			model.addAttribute("msg", "发布失败-余额不足-请联系管理员添加余额");
 			return "userNewTask";
 		}
@@ -74,6 +79,12 @@ public class TaskController {
 				new Date(), new Date(), task.getTaskName(), task.getTaskContext(), 0);
 
 		user.setMoney(user.getMoney()-task2.getReward());
+
+		// 钱先到系统管理员账户
+		Admin system = adminService.getAdminByAccount("system");
+		system.setMoney(system.getMoney() + task2.getReward());
+		adminService.updateAdminInfo(system);
+
 		int rUser = userService.updateUserInfo(user);
 		if (rUser> 0) {
 			int r = taskService.setNewTask(task2);
@@ -140,12 +151,10 @@ public class TaskController {
 			tid = Integer.parseInt(tidstr);
 		} catch (Exception e) {
 			model.addAttribute("msg", "出现错误");
-			System.out.println("11111111111");
 			return getUserTask(request, model);
 		}
 		if (tid == 0) {
 			model.addAttribute("msg", "出现错误");
-			System.out.println("22222222222222");
 			return getUserTask(request, model);
 		}
 		User user = null;
@@ -174,7 +183,12 @@ public class TaskController {
 		theTask.setState(3);
 		User aUser = userService.getByUid(theTask.getAcceptUserId());
 		aUser.setMoney(aUser.getMoney()+theTask.getReward());
-		
+
+		// 系统管理员账户钱转移到完成任务到用户手中
+		Admin system = adminService.getAdminByAccount("system");
+		system.setMoney(system.getMoney() - theTask.getReward());
+		adminService.updateAdminInfo(system);
+
 		int rUser = userService.updateUserInfo(aUser);
 		if (rUser>0) {
 			int r = taskService.updateTask(theTask);
@@ -250,17 +264,7 @@ public class TaskController {
 	// 点击接受任务
 	@RequestMapping("taskAccept.do")
 	public String taskAccept(String tidstr, HttpServletRequest request, Model model) {
-		int tid = 0;
-		try {
-			tid = Integer.parseInt(tidstr);
-		} catch (Exception e) {
-			model.addAttribute("msg", "出现错误");
-			return getTaskInfo(tidstr, model);
-		}
-		if (tid == 0) {
-			model.addAttribute("msg", "出现错误");
-			return getTaskInfo(tidstr, model);
-		}
+		int tid = tid = Integer.parseInt(tidstr);
 		User user = null;
 		try {
 			user = (User) request.getSession(false).getAttribute("nowUser");
@@ -268,24 +272,39 @@ public class TaskController {
 			model.addAttribute("msg", "请检查登录状况");
 			return getTaskInfo(tidstr,model);
 		}
-		int uid = 0;
-		try {
-			uid = user.getStuId();
-			if (user == null || uid == 0) {
-				model.addAttribute("msg", "请检查登录状况");
-				return getTaskInfo(tidstr, model);
-			}
-		} catch (Exception e) {
-			model.addAttribute("msg", "请检查登录状况");
-			return getTaskInfo(tidstr, model);
-		}
+		int uid = uid = user.getStuId();
 		Task theTask = taskService.getTask(tid);
 		if ((uid + "").equals(theTask.getPublishUserId())) {
 			model.addAttribute("msg", "不能接受自己的任务啊");
 			return getTaskInfo(tidstr, model);
 		}
 		theTask.setAcceptUserId(uid);
-		theTask.setState(1);
+		theTask.setState(2);
+		int r = taskService.updateTask(theTask);
+		if (r > 0) {
+			model.addAttribute("msg", "成功");
+		} else {
+			model.addAttribute("msg", "失败");
+		}
+		return getTaskInfo(tidstr, model);
+	}
+
+
+	// 任务已完成
+	@RequestMapping("taskComplete.do")
+	public String taskComplete(String tidstr, HttpServletRequest request, Model model) {
+		int tid = tid = Integer.parseInt(tidstr);
+		User user = null;
+		try {
+			user = (User) request.getSession(false).getAttribute("nowUser");
+		} catch (Exception e) {
+			model.addAttribute("msg", "请检查登录状况");
+			return getTaskInfo(tidstr,model);
+		}
+		int uid = uid = user.getStuId();
+		Task theTask = taskService.getTask(tid);
+		// 任务已完成
+		theTask.setState(3);
 		int r = taskService.updateTask(theTask);
 		if (r > 0) {
 			model.addAttribute("msg", "成功");
